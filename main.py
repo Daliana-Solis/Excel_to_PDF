@@ -25,7 +25,7 @@ for file in file_paths:
     pdf.set_font(family="Times", size=14, style="B")
     pdf.cell(w=50, h=8, txt=f"Date: {date}", ln=1)
 
-    pdf.ln(20)
+    pdf.ln(10)
 
     #read data
     df = pd.read_excel(file, sheet_name='Sheet 1')
@@ -44,9 +44,11 @@ for file in file_paths:
     pdf.cell(w=30, h=8, txt=headers[4], border=1, ln=1)
 
     #iterate through every data row and add to PDF
+
     for index, row in df.iterrows():
         pdf.set_font(family="Times", size=10)
         pdf.set_text_color(80,80,80)
+
 
         #columns data
         pdf.cell(w=30, h=8, txt=str(row["product_id"]), border=1)
@@ -54,6 +56,26 @@ for file in file_paths:
         pdf.cell(w=30, h=8, txt=str(row["amount_purchased"]), border=1)
         pdf.cell(w=30, h=8, txt=str(row["price_per_unit"]), border=1)
         pdf.cell(w=30, h=8, txt=str(row["total_price"]), border=1, ln=1)
+
+    #adding amount into PDF
+    amount = df['total_price'].sum()
+    pdf.cell(w=30, h=8, txt="", border=1)
+    pdf.cell(w=50, h=8, txt="", border=1)
+    pdf.cell(w=30, h=8, txt="", border=1)
+    pdf.cell(w=30, h=8, txt="", border=1)
+    pdf.cell(w=30, h=8, txt=str(amount), border=1, ln=1)
+
+    pdf.ln(5)
+
+    #add total sum sentence
+    pdf.set_font(family="Times", size=10, style="B")
+    pdf.cell(w=30, h=8, txt=f"The total price is {str(amount)}", ln=1)
+
+    #add company name and logo
+    pdf.set_font(family="Times", size=10, style="B")
+    pdf.cell(w=25, h=8, txt=f"PythonHow")
+    pdf.image("pythonhow.png", w=5)
+
 
 
 
